@@ -1,6 +1,7 @@
 <?php
 require_once("includes/config.php");
 require_once("includes/classes/FormSanitizer.php");
+require_once("includes/classes/Constants.php");
 require_once("includes/classes/Account.php");
 
 $account = new Account($con);
@@ -13,6 +14,8 @@ if (isset($_POST["submitButton"])) {
     $email2 = FormSanitizer::sanitizeFormEmail($_POST["email2"]);
     $password = FormSanitizer::sanitizeFormPassword($_POST["password"]);
     $password2 = FormSanitizer::sanitizeFormPassword($_POST["password2"]);
+
+    $account->validateFirstName($firstName);
 }
 ?>
 
@@ -33,6 +36,7 @@ if (isset($_POST["submitButton"])) {
                 <span>to continue to Sankflix</span>
             </div>
             <form method="POST">
+                <?php echo $account->getError(Constants::$firstNameCharacters); ?>
                 <input type="text" name="firstName" placeholder="First name">
                 <input type="text" name="lastName" placeholder="Last name">
                 <input type="text" name="username" placeholder="Username">
